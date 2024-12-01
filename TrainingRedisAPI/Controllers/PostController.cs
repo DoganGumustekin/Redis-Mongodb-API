@@ -36,12 +36,11 @@ namespace TrainingRedisAPI.Controllers
         public async Task<ActionResult<Post>> GetPost(string postId)
         {
 
-            var likeCount = _redisRepository.HashGet<int>(postId, "LikeCount");
-            var commentCount = _redisRepository.HashGet<int>(postId, "CommentCount");
-
             var post = await _postService.GetAsync(postId);
-            post.LikeCount = likeCount;
-            post.CommentCount = commentCount;
+            post.LikeCount = _redisRepository.HashGet<int>(postId, "LikeCount");
+            post.CommentCount = _redisRepository.HashGet<int>(postId, "CommentCount");
+
+            _redisRepository.Refresh(postId);
 
             return Ok(post);
         }

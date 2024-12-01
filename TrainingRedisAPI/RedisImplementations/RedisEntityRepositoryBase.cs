@@ -21,7 +21,7 @@ namespace TrainingRedisAPI.RedisImplementations
         public void Set(string key, object value)
         {
             var serilizedValue = JsonSerializer.Serialize(value);
-            _redisDB.StringSet(key, serilizedValue);
+            _redisDB.StringSet(key, serilizedValue,TimeSpan.FromMinutes(45));
         }
         public void Refresh(string key) => _redisDB.KeyExpire(key, TimeSpan.FromMinutes(30));
         public bool Any(string key) => _redisDB.KeyExists(key);
@@ -31,6 +31,7 @@ namespace TrainingRedisAPI.RedisImplementations
         {
             var serializedValue = JsonSerializer.Serialize(value);
             _redisDB.HashSet(key, field, serializedValue);
+            _redisDB.KeyExpire(key,TimeSpan.FromMinutes(45));
         }
         public T HashGet<T>(string key, string field)
         {
@@ -46,8 +47,6 @@ namespace TrainingRedisAPI.RedisImplementations
             );
         }
         public bool HashFieldExist(string key, string field) => _redisDB.HashExists(key, field);
-
-
         public void HashRemove(string key, string field) => _redisDB.HashDelete(key, field);
     }
 }
