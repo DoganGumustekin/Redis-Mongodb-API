@@ -1,8 +1,13 @@
-﻿namespace TrainingRedisAPI.Models
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace TrainingRedisAPI.Models
 {
     public class Post
     {
-        public int Id { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id { get; set; }
         public string Name { get; set; }
         public int LikeCount { get; set; }
         public int CommentCount { get; set; }

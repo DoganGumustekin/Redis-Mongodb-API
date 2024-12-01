@@ -1,5 +1,7 @@
 using StackExchange.Redis;
+using TrainingRedisAPI.Models;
 using TrainingRedisAPI.RedisImplementations;
+using TrainingRedisAPI.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<MongoDBSettings>(
+    builder.Configuration.GetSection("PostServiceSettings"));
+
+builder.Services.AddSingleton<PostService>();
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp => sp.ConfigureRedis(builder.Configuration));
 
