@@ -6,7 +6,7 @@ namespace TrainingRedisAPI.Repositories
 {
     public class PostService
     {
-        private readonly IMongoCollection<Post> _booksCollection;
+        private readonly IMongoCollection<Post> _postCollection;
 
         public PostService(
             IOptions<MongoDBSettings> settings)
@@ -17,23 +17,23 @@ namespace TrainingRedisAPI.Repositories
             var mongoDatabase = mongoClient.GetDatabase(
                 settings.Value.DatabaseName);
 
-            _booksCollection = mongoDatabase.GetCollection<Post>(
+            _postCollection = mongoDatabase.GetCollection<Post>(
                 settings.Value.CollectionName);
         }
 
         public async Task<List<Post>> GetAsync() =>
-            await _booksCollection.Find(_ => true).ToListAsync();
+            await _postCollection.Find(_ => true).ToListAsync();
 
         public async Task<Post?> GetAsync(string id) =>
-            await _booksCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+            await _postCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
         public async Task CreateAsync(Post newBook) =>
-            await _booksCollection.InsertOneAsync(newBook);
+            await _postCollection.InsertOneAsync(newBook);
 
         public async Task UpdateAsync(string id, Post updatedBook) =>
-            await _booksCollection.ReplaceOneAsync(x => x.Id == id, updatedBook);
+            await _postCollection.ReplaceOneAsync(x => x.Id == id, updatedBook);
 
         public async Task RemoveAsync(string id) =>
-            await _booksCollection.DeleteOneAsync(x => x.Id == id);
+            await _postCollection.DeleteOneAsync(x => x.Id == id);
     }
 }
