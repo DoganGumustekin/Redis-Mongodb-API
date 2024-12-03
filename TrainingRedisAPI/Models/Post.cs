@@ -6,7 +6,7 @@ namespace TrainingRedisAPI.Models
     public class Post
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+        //[BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
         public string Name { get; set; }
         public int LikeCount { get; set; }

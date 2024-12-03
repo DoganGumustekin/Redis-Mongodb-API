@@ -27,11 +27,11 @@ namespace TrainingRedisAPI.Repositories
         public async Task<Post?> GetAsync(string id) =>
             await _postCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-        public async Task CreateAsync(Post newBook) =>
-            await _postCollection.InsertOneAsync(newBook);
+        public async Task CreateAsync(Post post) =>
+            await _postCollection.InsertOneAsync(post);
 
-        public async Task UpdateAsync(string id, Post updatedBook) =>
-            await _postCollection.ReplaceOneAsync(x => x.Id == id, updatedBook);
+        public async Task UpdateAsync(string id, Post post) =>
+            await _postCollection.ReplaceOneAsync(x => x.Id == id, post);
 
         public async Task RemoveAsync(string id) =>
             await _postCollection.DeleteOneAsync(x => x.Id == id);

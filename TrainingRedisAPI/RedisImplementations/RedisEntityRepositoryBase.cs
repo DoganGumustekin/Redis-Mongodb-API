@@ -35,6 +35,14 @@ namespace TrainingRedisAPI.RedisImplementations
         }
         public T HashGet<T>(string key, string field)
         {
+            if (!_redisDB.KeyExists(key))
+            {
+                throw new Exception($"Gönderi Bulunamadı {key}");
+            }
+            if (!_redisDB.HashExists(key,field))
+            {
+                throw new Exception($"Gönderi Bulunamadı {key} , {field}");
+            }
             var value = _redisDB.HashGet(key, field);
             return value.HasValue ? JsonSerializer.Deserialize<T>(value) : default;
         }
